@@ -24,17 +24,18 @@ __author__ = 'huanghf'
 def convertToTitle(n):
     key_list = [x for x in range(1, 27)]
     value_list = [chr(ord('A') + x) for x in range(0, 26)]
-    dic = dict(zip(key_list,value_list)) # 键值对字典
-    ans = []
-    a = n//26
-    ans.append(a)
+    dic = dict(zip(key_list, value_list))  # 键值对字典
+    ans = ''
+
     # 辗转相除
-    while  a!=0:
-        a = a//26
-        ans.append(a)
-
-    print(ans)
-
+    while n != 0:
+        n, b = divmod(n, 26)
+        if b == 0:
+            b = 26
+            n -= 1
+        ans = dic[b] + ans
+        # print(n,b,ans)
+    return ans
 
 if __name__ == '__main__':
     print(convertToTitle(888))
