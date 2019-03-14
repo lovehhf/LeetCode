@@ -46,7 +46,7 @@ def spiralOrder(matrix):
         res += matrix.pop(0)
         if matrix:
             m, n = len(matrix), len(matrix[0])  # 行,列 3,4
-            matrix = [[row[x] for row in matrix] for x in range(n-1, -1, -1)] # 逆时针旋转二位数组
+            matrix = [[matrix[y][x] for y in range(0,m)] for x in range(n-1, -1, -1)] # 逆时针旋转二位数组
     return res
 
     #
