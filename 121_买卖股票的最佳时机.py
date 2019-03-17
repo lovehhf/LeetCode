@@ -29,7 +29,7 @@ def maxProfit(prices):
     :param prices:
     :return:
     """
-    
+
     s = 0
     for i,v1 in enumerate(prices):
         for j,v2 in enumerate(prices[i+1:]):
