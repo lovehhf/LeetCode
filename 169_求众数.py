@@ -23,6 +23,17 @@ class Solution:
         nums.sort()
         return nums[len(nums)//2]
 
+    def majorityElement2(self, nums):
+        cnt, ret = 0, 0
+        for num in nums:
+            if cnt == 0:
+                ret = num
+            if num != ret:
+                cnt -= 1
+            else:
+                cnt += 1
+        return ret
+
 so = Solution()
 nums = [2,2,1,1,1,2,2]
 print(so.majorityElement(nums))
