@@ -30,6 +30,7 @@ class Solution(object):
             # print(s)
             # 选择的数字不应超过s的长度
             if i <= len(s):
+                # print(s)
                 # 选择一位数字
                 if i==1:
                     self.dfs(s[i:], index + 1, path + s[:i] + ".", res)
