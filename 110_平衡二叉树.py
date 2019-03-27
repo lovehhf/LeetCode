@@ -44,6 +44,7 @@ class Solution(object):
                 return True
             else:
                 return False
+
     def count_floor(self,root):
         if not root:
             return 0
