@@ -40,16 +40,16 @@ def spiralOrder(matrix):
           [9,10,11,12]
         ]
         0,3->3,0 0,2->2,0
-        行数: 变列数  下标递增 range(0,m)x
+        行数: 变列数  下标递增 range(0,m)
         列数: 变行数  下标递减 range(n,-1,-1)
         """
         res += matrix.pop(0)
-        if matrix:
-            m, n = len(matrix), len(matrix[0])  # 行,列 3,4
-            matrix = [[matrix[y][x] for y in range(0,m)] for x in range(n-1, -1, -1)] # 逆时针旋转二位数组
-
         # if matrix:
-        #     matrix[:] = zip(*list(map(reversed,matrix)))
+        #     m, n = len(matrix), len(matrix[0])  # 行,列 3,4
+        #     matrix = [[matrix[y][x] for y in range(0,m)] for x in range(n-1, -1, -1)] # 逆时针旋转二维数组
+
+        if matrix:
+            matrix[:] = zip(*list(map(reversed,matrix)))
     return res
 
     #
