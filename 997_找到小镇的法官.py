@@ -37,7 +37,7 @@ __author__ = 'huanghf'
 
 1 <= N <= 1000
 trust.length <= 10000
-trust[i] 是完全不同的
+trust[i] \
 trust[i][0] != trust[i][1]
 1 <= trust[i][0], trust[i][1] <= N
 """
