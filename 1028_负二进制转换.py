@@ -45,12 +45,13 @@ class Solution(object):
         :rtype: str
         """
         neg = [1 << i for i in range(1, 33, 2)]
+
         for mask in neg:
             if N & mask:
                 N += mask*2
         return bin(N)[2:]
 
 
-N = 4
+N = 255
 s = Solution()
 print(s.baseNeg2(N))

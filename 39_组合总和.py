@@ -32,9 +32,42 @@ candidates 中的数字可以无限制重复被选取。
 
 
 class Solution(object):
+    def combinationSum2(self, candidates, target):
+        res = []
+        candidates.sort()
+        self.dfs(candidates, target, 0, [], res)
+        return res
+
+    def dfs(self, nums, target, index, path, res):
+        if target < 0:
+            return  # backtracking
+        if target == 0:
+            res.append(path)
+            return
+        for i in range(index, len(nums)):
+            self.dfs(nums, target - nums[i], i, path + [nums[i]], res)
+
+
     def combinationSum(self, candidates, target):
         """
         :type candidates: List[int]
         :type target: int
         :rtype: List[List[int]]
         """
+        candidates.sort()
+        dp = [[[]]] + [[] for i in range(target)]
+
+        for i in range(1, target + 1):
+            for number in candidates:
+                if number > i:
+                    break
+                for L in dp[i - number]:
+                    if not L or number >= L[-1]:
+                        dp[i] += L + [number]
+        # print(dp)
+        return dp[target]
+
+candidates = [1,2,3,5]
+target = 15
+s = Solution()
+print(s.combinationSum(candidates,target))
