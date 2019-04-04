@@ -34,9 +34,9 @@ class Solution(object):
         """
         cur = 0
         count = 1
-        while cur<len(chars)-1:
-            if chars[cur] == chars[cur+1]:
-                chars.pop(cur+1)
+        while cur < len(chars) - 1:
+            if chars[cur] == chars[cur + 1]:
+                chars.pop(cur + 1)
                 count += 1
             else:
                 if count > 1:
@@ -58,10 +58,10 @@ class Solution(object):
         :type chars: List[str]
         :rtype: int
         """
-        left,right = 0,1
+        left, right = 0, 1
         count = 1
-        while right<len(chars):
-            if chars[left] == chars[left+1]:
+        while right < len(chars):
+            if chars[left] == chars[left + 1]:
                 chars.pop(right)
                 count += 1
             else:
@@ -81,6 +81,7 @@ class Solution(object):
             chars.extend(list(str(count)))
         return len(chars)
 
-chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]
+
+chars = ["a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"]
 s = Solution()
 print(s.compress(chars))
