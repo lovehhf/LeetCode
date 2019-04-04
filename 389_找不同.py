@@ -27,6 +27,12 @@ e
 
 class Solution:
     def findTheDifference(self, s: str, t: str) -> str:
+        ret = 0
+        for c in s + t:
+            ret ^= ord(c)
+        return chr(ret)
+
+    def findTheDifference2(self, s: str, t: str) -> str:
         s = sorted(s)
         t = sorted(t)
         for i in range(len(s)):
