@@ -40,8 +40,14 @@ class Solution:
                 return t[i]
         return t[-1]
 
+    def findTheDifference3(self, s, t):
+        return chr(sum([ord(i) for i in t]) - sum([ord(i) for i in s]))
 
-
+    def findTheDifference4(self, s, t):
+        s, t = list(s), list(t)
+        for i in s:
+            t.remove(i)
+        return t[0]
 
 s = "ae"
 t = "aea"
