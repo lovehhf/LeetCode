@@ -101,7 +101,7 @@ class Solution(object):
                 que = que[i+1:]
             return True
         return [check(que,pattern) for que in queries]
-    
+
 # queries = ["uAxaqlzahfialcezsLfj","cAqlzyahaslccezssLfj","AqlezahjarflcezshLfj","AqlzofahaplcejuzsLfj","tAqlzahavslcezsLwzfj","AqlzahalcerrzsLpfonj","AqlzahalceaczdsosLfj","eAqlzbxahalcezelsLfj"]
 # pattern = "AqlzahalcezsLfj"
 
