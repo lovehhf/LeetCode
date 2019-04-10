@@ -23,6 +23,7 @@ class Solution(object):
     def hIndex(self, citations):
         """
         二分查找
+
         :type citations: List[int]
         :rtype: int
         """
