@@ -70,6 +70,16 @@ class Solution(object):
                 for i, n in enumerate(nums)
                 for p in self.permute(nums[:i] + nums[i+1:])] or [[]]
 
+    def permute4(self, nums):
+        """
+        one line
+        :param nums:
+        :return:
+        """
+        from itertools import permutations
+        return list(permutations(nums))
+
+
 nums = [1, 2, 3]
 s = Solution()
 print(s.permute2(nums))

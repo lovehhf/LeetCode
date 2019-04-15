@@ -20,7 +20,6 @@ __author__ = 'huanghf'
 class Solution(object):
     def maxArea(self, height):
         """
-        暴力法 超时
         :type height: List[int]
         :rtype: int
         """

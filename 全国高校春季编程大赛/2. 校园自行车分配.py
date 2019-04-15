@@ -46,6 +46,47 @@ class Solution(object):
         :type bikes: List[List[int]]
         :rtype: List[int]
         """
+
+        ans = [-1] * len(workers)
+        record = dict()
+        for b, bike in enumerate(bikes):
+            xb, yb = bike[0], bike[1]
+
+            for w, worker in enumerate(workers):
+                xw, yw = worker[0], worker[1]
+                distance = abs(xb - xw) + abs(yb - yw)
+
+                if distance in record:
+                    record[distance].append([b, w])
+                else:
+                    record[distance] = [[b, w]]
+
+        usedbike, usedworker = [0] * len(bikes), [0] * len(workers)
+        while (record):
+            key = min(record.keys())
+            pairs = record[key]
+
+            for pair in pairs:
+                bikeid, workerid = pair[0], pair[1]
+                if usedbike[bikeid] or usedworker[workerid]:
+                    continue
+
+                if ans[workerid] == -1:
+                    ans[workerid] = bikeid
+
+                    usedbike[bikeid] = 1
+                    usedworker[workerid] = 1
+
+            record.pop(key)
+
+        return ans
+
+    def assignBikes2(self, workers, bikes):
+        """
+        :type workers: List[List[int]]
+        :type bikes: List[List[int]]
+        :rtype: List[int]
+        """
         def get_manhattan(p1,p2):
             manhattan = abs(p1[0]-p2[0])+abs(p1[1]-p2[1])
             return manhattan
