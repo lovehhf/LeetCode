@@ -32,7 +32,7 @@ class Solution(object):
 
         res = []
         dfs(nums,[],res)
-        return res
+        return list(set([tuple(x) for x in res]))
 
     def permuteUnique2(self, nums):
         """
