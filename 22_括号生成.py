@@ -82,6 +82,7 @@ class Solution:
                 if valid(A):
                     ans.append("".join(A))
             else:
+                print(A)
                 # 使用递归生成所有序列
                 A.append("(")
                 generate(A)
@@ -96,4 +97,4 @@ class Solution:
 
 n = 3
 s = Solution()
-print(s.generateParenthesis3(n))
+print(s.generateParenthesis(n))
