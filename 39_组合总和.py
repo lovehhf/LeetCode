@@ -47,27 +47,57 @@ class Solution(object):
         for i in range(index, len(nums)):
             self.dfs(nums, target - nums[i], i, path + [nums[i]], res)
 
-
     def combinationSum(self, candidates, target):
         """
+        dp[i]: target为i时的解
         :type candidates: List[int]
         :type target: int
         :rtype: List[List[int]]
         """
         candidates.sort()
-        dp = [[[]]] + [[] for i in range(target)]
-
+        dp = [[[]]] + [[] for _ in range(target)]
         for i in range(1, target + 1):
-            for number in candidates:
-                if number > i:
+            for num in candidates:
+                if num > i:
                     break
-                for L in dp[i - number]:
-                    if not L or number >= L[-1]:
-                        dp[i] += L + [number]
-        # print(dp)
+                elif num == i:
+                    dp[i] += [[num]]
+                else:
+                    for j in dp[i - num]:
+                        if num >j[0]:
+                            continue
+                        else:
+                            dp[i] += [[num] + j]
+                        # if not j or num >= j[-1]:
+                        #     dp[i] += [j + [num]]
         return dp[target]
 
-candidates = [1,2,3,5]
-target = 15
+        # 三维数组，记录每个和对应的最终结果
+        # dp = []
+        # candidates.sort()
+
+        # cur代表这个下标，也就是这个和，所以从1开始
+        # for cur in range(1, target + 1):
+        #     conbinations = []
+        #     for num in candidates:
+        #         if num > cur:
+        #             break
+        #         elif num == cur:
+        #             conbinations.append([cur])
+        #             break
+        #         else:
+        #             # 减去1是因为下标的关系
+        #             for conbination in dp[cur - num - 1]:
+        #                 if num > conbination[0]:
+        #                     continue
+        #                 conbinations.append([num] + conbination)
+        #     dp.append(conbinations)
+        #
+        # print(dp)
+        # return dp[target - 1]
+
+
+candidates = [2, 3, 5]
+target = 10
 s = Solution()
-print(s.combinationSum(candidates,target))
+print(s.combinationSum(candidates, target))
