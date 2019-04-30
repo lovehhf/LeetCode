@@ -16,12 +16,13 @@ __author__ = 'huanghf'
 输出: 1->1->2->3->4->4->5->6
 """
 
+from utils.ListNode import ListNode,List2LN,LN2List,LN2String
 
 # Definition for singly-linked list.
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
 class Solution:
     def merge2Lists(self, phead, qhead):
@@ -56,3 +57,19 @@ class Solution:
         res = reduce(self.merge2Lists, lists)
         # res = self.merge2Lists(lists[0],lists[1])
         return res
+
+lists = [
+    [3,4,5],
+    [1,3,4],
+    [2,6],
+    [3,4,8],
+    [0,5,7]
+]
+
+lists = [List2LN(x) for x in lists]
+
+s = Solution()
+res = s.mergeKLists(lists)
+
+print(LN2List(res))
+print(LN2String(res))

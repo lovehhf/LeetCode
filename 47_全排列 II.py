@@ -23,16 +23,19 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-
+        nums.sort()
         def dfs(nums, path, res):
             if not nums:
                 res.append(path)
+                return
             for i in range(len(nums)):
+                if i>0 and nums[i] == nums[i-1]:
+                    continue
                 dfs(nums[:i] + nums[i + 1:], path + [nums[i]], res)
-
         res = []
         dfs(nums,[],res)
-        return list(set([tuple(x) for x in res]))
+        return res
+        # return list(set([tuple(x) for x in res]))
 
     def permuteUnique2(self, nums):
         """
@@ -43,6 +46,6 @@ class Solution(object):
         return list(set(permutations(nums)))
 
 
-nums = [1, 1, 2]
+nums = [3,3,0,3]
 s = Solution()
 print(s.permuteUnique(nums))

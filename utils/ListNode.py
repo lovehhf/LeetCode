@@ -32,13 +32,25 @@ def List2LN(ip):
         p = p.next
     return head.next
 
-
 def String2LN(ip):
     lip = ip[1:-1].split(",")
     for i in range(len(lip)):
         lip[i] = int(lip[i])
     return List2LN(lip)
 
+def LN2List(node):
+    r = []
+    while node:
+        r.append(node.val)
+        node = node.next
+    return r
+
+def LN2String(node):
+    r = []
+    while node:
+        r.append(str(node.val))
+        node = node.next
+    return '->'.join(r) + '->None'
 
 if __name__ == "__main__":
     def test():
@@ -49,7 +61,6 @@ if __name__ == "__main__":
         lst_root = List2LN(lst)
         p = lst_root
         while p:
-            print(p)
             p = p.next
 
 

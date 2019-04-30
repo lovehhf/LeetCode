@@ -40,7 +40,7 @@ class Solution(object):
 
     def dfs(self, nums, target, index, path, res):
         if target < 0:
-            return  # backtracking
+            return  # 回溯
         if target == 0:
             res.append(path)
             return
@@ -100,4 +100,4 @@ class Solution(object):
 candidates = [2, 3, 5]
 target = 10
 s = Solution()
-print(s.combinationSum(candidates, target))
+print(s.combinationSum2(candidates, target))
