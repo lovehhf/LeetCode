@@ -21,7 +21,8 @@ __author__ = 'huanghf'
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-from utils.ListNode import ListNode,LN2List,List2LN
+from utils.ListNode import ListNode, LN2List, List2LN
+
 
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
@@ -35,9 +36,9 @@ class Solution:
         p = head
         carry = 0
         while l1 or l2:
-            x,y = l1.val if l1 else 0,l2.val if l2 else 0
+            x, y = l1.val if l1 else 0, l2.val if l2 else 0
             s = x + y + carry
-            r,carry = s%10,s//10
+            r, carry = s % 10, s // 10
             p.next = ListNode(r)
             p = p.next
             if l1:
@@ -60,7 +61,7 @@ class Solution:
         carry = 0
         while l1 and l2:
             s = l1.val + l2.val + carry
-            r,carry = s%10,s//10
+            r, carry = s % 10, s // 10
             p.next = ListNode(r)
             l1 = l1.next
             l2 = l2.next
@@ -111,16 +112,16 @@ class Solution:
         """
 
         head = ListNode(0)
-        a,b,i,j = 0,0,0,0
+        a, b, i, j = 0, 0, 0, 0
         while l1:
-            a += l1.val*10**i
+            a += l1.val * 10 ** i
             i += 1
             l1 = l1.next
         while l2:
-            b += l2.val*10**j
+            b += l2.val * 10 ** j
             j += 1
             l2 = l2.next
-        l = [int(x) for x in list(str(a+b))]
+        l = [int(x) for x in list(str(a + b))]
         p = head
         for i in l[::-1]:
             p.next = ListNode(i)
@@ -128,7 +129,8 @@ class Solution:
         p.next = None
         return head.next
 
-l1 = List2LN([9,9,9])
+
+l1 = List2LN([9, 9, 9])
 l2 = List2LN([1])
 s = Solution()
-print(s.addTwoNumbers(l1,l2))
+print(s.addTwoNumbers(l1, l2))

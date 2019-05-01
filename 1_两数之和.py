@@ -14,13 +14,39 @@ __author__ = 'huanghf'
 因为 nums[0] + nums[1] = 2 + 7 = 9
 所以返回 [0, 1]
 """
+
+
 class Solution:
     def twoSum(self, nums, target):
-        for i,v1 in enumerate(nums):
-            for j,v2 in enumerate(nums[i+1:]):
-                if (v1+v2 == target):
-                    return [i,i+1+j]
+        """
+        使用辅助字典
+        键: nums[i] 值:索引
+        :param nums:
+        :param target:
+        :return:
+        """
+        d = {}
+        for i in range(len(nums)):
+            k = target - nums[i]
+            if d.get(k) != None:
+                return [d.get(k),i]
+            else:
+                d[nums[i]] = i
+
+    def twoSum2(self, nums, target):
+        """
+        暴力
+        :param nums:
+        :param target:
+        :return:
+        """
+        n = len(nums)
+        for i in range(n):
+            for j in range(i+1,n):
+                if nums[i] + nums[j] == target:
+                    return [i,j]
+
 
 if __name__ == '__main__':
     s = Solution()
-    print (s.twoSum([2, 7, 11, 15],9))
+    print(s.twoSum([2,7,11,15], 9))
