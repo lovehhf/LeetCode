@@ -43,6 +43,29 @@ class Solution(object):
         dfs(nums, 0, res, [])
         return res
 
+    def combine3(self, n, k):
+        """
+        回溯
+        :param n:
+        :param k:
+        :return:
+        """
+        def backtracking(n, k, t, res, path):
+            if len(path) == k:
+                import copy
+                tmp = copy.copy(path)
+                res.append(tmp)
+                return
+            else:
+                for i in range(t, n + 1):
+                    path.append(i)
+                    backtracking(n, k, i + 1, res, path)
+                    path.pop()
+
+        res,path = [],[]
+        backtracking(n, k, 1, res, path)
+        return res
+
     def combine2(self, n, k):
         """
         :type n: int
@@ -55,4 +78,4 @@ class Solution(object):
 
 n, k = 4, 2
 s = Solution()
-print(s.combine(n, k))
+print(s.combine3(n, k))
