@@ -25,51 +25,69 @@ __author__ = 'huanghf'
 
 
 class Solution(object):
-    def fun(self,s):
-        """
-        处理没有0的字符串
-        :param s:
-        :return:
-        111111
-        1235813
-        """
-        n = len(s)
-        res = [1]*s
-        for i in range(1, n):
-            if int(s[i - 1:i + 1]) <= 26 and s[i - 1] != '0':
-                res[i] = res[i - 1] + 1
-            else:
-                res[i] = res[i - 1]
-        return res[-1]
 
     def numDecodings(self, s):
         """
+        约束版的斐波那契数列 f(n) = f(n-1) + f(n-2);
+        其中如果是s[n-1]为0，f(n-1) = 0,f(n) = f(n-2)，因为0无法单独解码，
+        而f(n-2)的条件则是必须在1与26之间，否则f(n) = f(n-1)
         :type s: str
         :rtype: int
         """
-        if not s:
-            return 0
         n = len(s)
-        if s[0] == '0':
+        if n == 0 or s[0] == '0':
             return 0
-
-        dp = [0] * len(s)
+        if n == 1:
+            return 1
+        dp = [0] * (n + 1)
         dp[0] = 1
-
-        for i in range(1, n):
-            if s[i] == '0':
-                if s[i - 1] == '1' or s[i - 1] == '2':
-                    dp[i] = dp[i - 1]
-                else:
-                    return 0
-            elif int(s[i - 1:i + 1]) <= 26 and s[i - 1] != '0':
-                dp[i] = dp[i - 1] + 1
-            else:
-                dp[i] = dp[i - 1]
+        for i in range(n):
+            dp[i + 1] = dp[i] if s[i] != '0' else 0
+            if i > 0 and (10 <= int(s[i - 1:i + 1]) <= 26):
+                dp[i + 1] += dp[i - 1]
         print(dp)
         return dp[-1]
 
+        # if not s:
+        #     return 0
+        # n = len(s)
+        # if s[0] == '0':
+        #     return 0
+        #
+        # dp = [0] * len(s)
+        # dp[0] = 1
+        #
+        # for i in range(1, n):
+        #     if s[i] == '0':
+        #         if s[i - 1] == '1' or s[i - 1] == '2':
+        #             dp[i] = dp[i - 1]
+        #         else:
+        #             return 0
+        #     elif int(s[i - 1:i + 1]) <= 26 and s[i - 1] != '0':
+        #         dp[i] = dp[i - 1] + 1
+        #     else:
+        #         dp[i] = dp[i - 1]
+        # print(dp)
+        # return dp[-1]
 
-s = '1111101111'
+    # def fun(self,s):
+    #     """
+    #     处理没有0的字符串
+    #     :param s:
+    #     :return:
+    #     111111
+    #     1235813
+    #     """
+    #     n = len(s)
+    #     res = [1]*s
+    #     for i in range(1, n):
+    #         if int(s[i - 1:i + 1]) <= 26 and s[i - 1] != '0':
+    #             res[i] = res[i - 1] + 1
+    #         else:
+    #             res[i] = res[i - 1]
+    #     return res[-1]
+
+
+s = '10'
 sol = Solution()
 print(sol.numDecodings(s))
