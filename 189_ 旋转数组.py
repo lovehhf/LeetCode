@@ -28,38 +28,38 @@ __author__ = 'huanghf'
 
 
 class Solution(object):
-    """
-     方法一:
+
+    def rotate(self, nums, k):
+        """
+        方法一:
         对前n-k个和后k个数组进行局部翻转,然后整体翻转
         [1,2,3,4,5,6,7]
         ->
         [4,3,2,1,7,6,5]
         ->
         [5,6,7,1,4,3,2]
-    """
-    def rotate(self, nums, k):
-        """
+
         :type nums: List[int]
         :type k: int
         :rtype: None Do not return anything, modify nums in-place instead.
         """
         n = len(nums)
-        k = k%n
-        self.reverse_list(nums, 0, n-k-1)
-        self.reverse_list(nums, n-k, n-1)
+        k = k % n
+        self.reverse_list(nums, 0, n - k - 1)
+        self.reverse_list(nums, n - k, n - 1)
         self.reverse_list(nums, 0, n - 1)
-        # return list(reversed(nums[:n-k][::-1]+nums[n-k:][::-1]))
-    def reverse_list(self,nums,l,r):
+
+    def reverse_list(self, nums, l, r):
         """
         列表的局部翻转
         :param l:
         :param r:
         :return:
         """
-        while l<r:
-            nums[l],nums[r] = nums[r],nums[l]
-            l+=1
-            r-=1
+        while l < r:
+            nums[l], nums[r] = nums[r], nums[l]
+            l += 1
+            r -= 1
 
     def rotate2(self, nums, k):
         """
@@ -69,19 +69,30 @@ class Solution(object):
         ...
         """
         n = len(nums)
-        k = k%n
+        k = k % n
         for i in range(k):
-            tmp = nums[n-1]
-            for j in range(n-1,-1,-1):
-                nums[j] = nums[j-1]
+            tmp = nums[n - 1]
+            for j in range(n - 1, -1, -1):
+                nums[j] = nums[j - 1]
             nums[0] = tmp
+        return list(reversed(nums[:n - k][::-1] + nums[n - k:][::-1]))
 
+    def rotate3(self, nums, k):
+        n = len(nums)
+        nums[:] = nums[n - k % n:] + nums[:n - k % n]
 
-        return list(reversed(nums[:n-k][::-1]+nums[n-k:][::-1]))
+    def rotate4(self, nums, k):
+        k = k%len(nums)
+        for _ in range(k):
+            nums.insert(0,nums.pop())
 
+    def rotate5(self, nums, k):
+        k = k%len(nums)
+        nums.reverse()
+        nums[:] = list(reversed(nums[:k])) + list(reversed(nums[k:]))
 
-nums = [1,2,3,4,5,6,7]
+nums = [1, 2, 3, 4, 5, 6, 7]
 k = 3
 s = Solution()
-s.rotate(nums, k)
+s.rotate5(nums, k)
 print(nums)

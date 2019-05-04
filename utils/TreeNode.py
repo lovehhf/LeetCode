@@ -62,6 +62,8 @@ def List2TN(lst, needs=None):
         >>> nodesInTree
         [[Self: 82]/L: None/R: None, [Self: -79]/L: None/R: None]
     '''
+    if not lst:
+        return
     nit = []
     root = TreeNode(lst[0])
     tnQ = [root]
