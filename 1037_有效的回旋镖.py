@@ -35,7 +35,7 @@ class Solution(object):
         points = [tuple(x) for x in points]
         if len(set(points)) < len(points):
             return False
-
+        # 计算斜率
         if points[0][0] == points[1][0] and points[1][0] == points[2][0]:
             return False
         if points[0][0] == points[1][0] or points[1][0] == points[2][0]:
@@ -46,7 +46,17 @@ class Solution(object):
             return True
         return False
 
+    def isBoomerang2(self, points):
+        """
+        大佬给出的骚方法
+        计算斜率的公式两边交叉相乘
+        https://www.bilibili.com/video/av51556296
+        :param points:
+        :return:
+        """
+        return (points[2][1] - points[1][1])*(points[1][0] - points[0][0])!=(points[1][1] - points[0][1])*(points[2][0] - points[1][0])
 
-points = [[0,1],[2,0],[1,1]]
+
+points = [[1,1],[1,1],[1,1]]
 s = Solution()
-print(s.isBoomerang(points))
+print(s.isBoomerang2(points))

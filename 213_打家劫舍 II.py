@@ -45,7 +45,7 @@ class Solution(object):
     def helper(self, nums):
         """
         房子在是直线的情况
-        dp1,dp2 边界的处理有一点麻烦 借助helper处理就简单很多
+        dp1,dp2 下标处理有点麻烦 借助helper处理就简单很多
         :param nums:
         :return:
         """

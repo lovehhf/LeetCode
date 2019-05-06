@@ -13,15 +13,11 @@ __author__ = 'huanghf'
  
 
 示例：
-
-
-
 输入：[4,1,6,0,2,5,7,None,None,None,3,None,None,None,8]
 输出：[30,36,21,36,35,26,15,None,None,None,33,None,None,None,8]
  
 
 提示：
-
 树中的节点数介于 1 和 100 之间。
 每个节点的值介于 0 和 100 之间。
 给定的树为二叉搜索树。

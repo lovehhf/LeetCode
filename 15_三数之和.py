@@ -13,6 +13,33 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
+        nums.sort()
+        res = []
+        n = len(nums)
+        for i in range(n):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            l, r = i + 1, n - 1
+            while l < r:
+                if nums[i] + nums[l] + nums[r] == 0:
+                    res.append([nums[i], nums[l], nums[r]])
+                    while l < r and nums[l] == nums[l + 1]:
+                        l += 1
+                    while l < r and nums[r] == nums[r - 1]:
+                        r -= 1
+                    l += 1
+                    r -= 1
+                elif (nums[i] + nums[l] + nums[r] < 0):
+                    l += 1
+                else:
+                    r -= 1
+        return res
+
+    def threeSum2(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
         if not nums or len(nums) < 3:
             return []
         d = {}
@@ -33,8 +60,8 @@ class Solution(object):
                             res.append([i, k, j])
                     else:
                         # k<i or k>j，意味着只取一边的，以防止重复
-                        if k<i or k>j or k==0:
-                            res.append([i,k,j])
+                        if k < i or k > j or k == 0:
+                            res.append([i, k, j])
         return res
 
     # def threeSum2(nums):
@@ -96,6 +123,7 @@ class Solution(object):
     #     return rst
     #
 
+
 s = Solution()
-nums = [3,0,-2,-1,1,2]
+nums = [3, 0, -2, -1, 1, 2]
 print(s.threeSum(nums))

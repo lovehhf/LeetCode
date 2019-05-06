@@ -37,16 +37,20 @@ __author__ = 'huanghf'
  
 
 提示：
-
 3 <= stones.length <= 10^4
 1 <= stones[i] <= 10^9
 stones[i] 的值各不相同。
+
+滑动窗口
+
+
 """
 
 
 class Solution(object):
     def numMovesStonesII(self, stones):
         """
+        看不懂Orz
         https://leetcode.com/problems/moving-stones-until-consecutive-ii/discuss/286707/JavaC%2B%2BPython-Sliding-Window
         :type stones: List[int]
         :rtype: List[int]
