@@ -7,12 +7,12 @@ __author__ = 'huanghf'
 
 按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：
 
-"123"->1
-"132"->2
-"213"->3
-"231"->4
-"312"->5
-"321"->6
+"123"->0
+"132"->1
+"213"->2 -> 2!
+"231"->3
+"312"->4 -> 2*2!
+"321"->5
 
 给定 n 和 k，返回第 k 个排列。
 
@@ -37,44 +37,41 @@ __author__ = 'huanghf'
 例如，
 假如给定题目为（5,46）。固定第一位数，后面4位的全排列数为24，math.ceil(46/24)=2,即处于第1位数的第二个循环中，即第一位数为2.
 同理，对于固定第二位数，math.ceil(（46-24）/6)=4,即处于第2位数的第四个循环中（此时列表移除了已确定的数字2），即第2位数为5.
-同理，可依次推理出最后结果为“25341”.总时间复杂度为O（n）.
+同理，可依次推理出最后结果为“25341”.总时间复杂度为O(n)
 
-
+模拟计算:
+[1,2,3,4,5],k = 46
+45//24=1 45%24=21 -->2
+[1,3,4,5]
+21//6=3 21%6=3 -->5
+[1,3,4]
+3//2=1 3%2=1 -->3
+[1,4]
+1//1=1 1%1=0 -->4
+[1] --> 1
 """
 
 import math
 
 class Solution(object):
     def getPermutation(self, n: int, k: int) -> str:
-        l = list(range(1, n + 1))
-        res = []
-        while l:
-            a = math.factorial(len(l) - 1)
-            tmp = math.ceil(k / a) - 1
-            value = l[tmp]
-            res.append(value)
-            l.remove(value)
-            k = k - tmp * a
-        res = list(map(str, res + l))
-        return ''.join(res)
-
-    def recursive(self, nums, k):
-        l = len(nums)
-        if l == 1:
-            return str(nums[0])
-        temp = math.factorial(l - 1)
-        idx = (k - 1) // temp
-        offset = (k - 1) % temp + 1
-        first = str(nums.pop(idx))
-        return first + self.recursive(nums, offset)
-
-    def getPermutation3(self, n, k):
         """
-        :type n: int
-        :type k: int
-        :rtype: str
+        先固定第一位
+        第一位的索引为 k//(n-1)!   (k=k-1, n为列表长度)
+        然后数组中删掉被固定的那位,然后再拿剩下数组和k%(n-1)重复上一步
+        :param n:
+        :param k:
+        :return:
         """
-        return self.recursive(list(range(1, n + 1)), k)
+        ls = list(range(1, n + 1))
+        res = ''
+        k -= 1
+        while ls:
+            m = math.factorial(len(ls) - 1)
+            i, k = k // m, k % m  # 索引
+            res += str(ls[i])
+            ls.pop(i)
+        return res
 
 
     def getPermutation2(self, n: int, k: int) -> str:
@@ -86,11 +83,12 @@ class Solution(object):
         :return:
         """
         from itertools import permutations
-        res = sorted(permutations(list(range(1,n+1))))
+        res = sorted(permutations(list(range(1, n + 1))))
         print(res)
-        return ''.join([str(x) for x in res[k-1]])
+        return ''.join([str(x) for x in res[k - 1]])
+
 
 n = 9
 k = 353955
 s = Solution()
-print(s.getPermutation(n,k))
+print(s.getPermutation(n, k))
