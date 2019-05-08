@@ -18,36 +18,43 @@ __author__ = 'huanghf'
 
 
 class Solution:
-    def expandAroundCenter(self, s, left, right):
-        L = left
-        R = right
-        while L >= 0 and R < len(s) and s[L] == s[R]:
-            L -= 1
-            R += 1
-        return R - L - 1
-
     def longestPalindrome(self, s: str) -> str:
         """
-        方法二: 中心扩展算法
-        事实上，只需使用恒定的空间，我们就可以在 O(n^2) 的时间内解决这个问题。
-        我们观察到回文中心的两侧互为镜像。因此，回文可以从它的中心展开，并且只有 2n - 12n−1 个这样的中心。
-        你可能会问，为什么会是 2n - 1个，而不是 n个中心？
-        原因在于所含字母数为偶数的回文的中心可以处于两字母之间（例如 abba 的中心在两个b之间）。
+        方法二: 中心扩展
+        首先枚举回文串的中心 i，然后分两种情况向两边扩展边界，直到遇到不同字符为止:
+        aba型: 回文串长度是奇数，依次判断 s[i−k]==s[i+k],k=0,1,2,3,…
+        abba型: 回文串长度是偶数，依次判断 s[i−k]==s[i+k+1],k=0,1,2,3,…
+        时间复杂度O(n^2)
         :param s:
         :return:
         """
-        if not s:
-            return ''
-        start, end = 0, 0
         n = len(s)
+        count = 0  # 记录最大回文串的长度
+        res = ''
         for i in range(n):
-            len1 = self.expandAroundCenter(s, i, i)
-            len2 = self.expandAroundCenter(s, i, i + 1)
-            len_max = max(len1, len2)
-            if len_max > end - start:
-                start = i - (len_max - 1) // 2
-                end = i + len_max // 2
-        return s[start:end + 1]
+            # aba型 初始j,k都指向b,然后j往左扩展 k往右扩展
+            j, k = i, i
+            while (j >= 0 and k < n):
+                if s[j] == s[k]:
+                    if k - j + 1 > count:
+                        count = k - j + 1
+                        res = s[j:k + 1]
+                    j -= 1
+                    k += 1
+                else:
+                    break
+            # abba型 初始j指向第一个b,k指向第二个b, 然后j往左扩展 k往右扩展
+            j, k = i, i + 1
+            while (j >= 0 and k < n):
+                if s[j] == s[k]:
+                    if k - j + 1 > count:
+                        count = k - j + 1
+                        res = s[j:k + 1]
+                    j -= 1
+                    k += 1
+                else:
+                    break
+        return res
 
     def is_palindromic_string(self, s):
         return s == s[::-1]
@@ -55,31 +62,21 @@ class Solution:
     def longestPalindrome2(self, s: str) -> str:
         """
         方法一: 暴力法
+        从最长字符串开始扫,如果不是回文串则扫描的字符串长度递减1
+        如果扫描到的是回文串则中断扫描
         :param s:
         :return:
         """
         n = len(s)
-        # max_alindromic_string = ''
         for i in range(n):
             start = 0
             end = n - i
-            # find_flag = 0  # 发现最长回文串的标志，如果发现则中断则标志变为1,中断内外循环
-            """
-            从最长字符串开始扫,如果不是回文串则扫描的字符串长度递减1
-            如果扫描到的是回文串则中断扫描
-            """
             while end <= n:
                 sub_string = s[start:end]
                 if self.is_palindromic_string(sub_string):
                     return sub_string
-                    # max_alindromic_string = sub_string
-                    # find_flag = 1
-                    # break
                 start += 1
                 end += 1
-        #     if find_flag:
-        #         break
-        # return max_alindromic_string
 
 
 s = "bababababba"

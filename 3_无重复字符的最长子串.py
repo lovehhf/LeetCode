@@ -2,40 +2,71 @@
 
 __author__ = 'huanghf'
 
+"""
+给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
 
-def lengthOfLongestSubstring(s):
-    st = {}
-    i, ans = 0, 0
-    for j in range(len(s)):
-        if s[j] in st:
-            """
-            所以if s[j] in st:是判断s[j]相同元素上次出现的位置，和i孰大孰小。
-            如果i大，说明[i,j-1]中没有与s[j]相同的元素，起始位置仍取i；
-            如果i小，则在[i,j-1]中有了与s[j]相同的元素，所以起始位置变为st[s[j]]+1，即[st[sj]+1,j]。
-            """
-            i = max(st[s[j]], i)    # i记录下最新的重复字符所在位置
-        ans = max(ans, j - i + 1)
-        st[s[j]] = j + 1
-    return ans
+示例 1:
 
+输入: "abcabcbb"
+输出: 3 
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+示例 2:
 
-    # a = ''
-    # max_count = 0
-    # count = 0
-    # for char in s:
-    #     if not (char in a):
-    #         a += char
-    #         count += 1
-    #     else:
-    #         if count > max_count:
-    #             max_count = count
-    #         index = a.index(char)    # 相同字符串在上一段字符串中的索引
-    #         a = a[(index+1):] + char # 切出上一段字符串中索引后一位到当前字符作为初始字符串
-    #         count = len(a)           # 初始串长度
-    #         # print(index)
-    # if count > max_count:
-    #     max_count = count
-    # return max_count
+输入: "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+示例 3:
+
+输入: "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+     
+"""
 
 
-print(lengthOfLongestSubstring("aab"))
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        遍历一遍s
+        使用一个列表存储到遍历到当前字符的无重复字符串
+        如果当前字符没有在列表中出现,则添加当前字符 
+        否则在列表里面删除重复字符索引前面的所有字符 再在最后加上当前字符
+        :type s: str
+        :rtype: int
+        """
+        n = len(s)
+        stack = []
+        res = 0
+        for i in range(n):
+            if s[i] not in stack:
+                stack.append(s[i])
+                res = max(len(stack), res)
+            else:
+                idx = stack.index(s[i])
+                stack = stack[idx + 1:] + [s[i]]
+        return res
+
+    def lengthOfLongestSubstring2(self, s):
+        """
+        滑动窗口
+        :param s:
+        :return:
+        """
+        n = len(s)
+        st = set()
+        L, R = 0, 0
+        res = 0
+        while R < n:
+            strlen = len(st)
+            st.add(s[R])
+            if not strlen == len(st):
+                R += 1
+                res = max(res, R - L)
+            else:
+                st.remove(s[L])
+                L += 1
+        return res
+
+s = Solution()
+print(s.lengthOfLongestSubstring2("dvdf"))
