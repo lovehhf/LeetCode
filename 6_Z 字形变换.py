@@ -29,42 +29,75 @@ L     D     R
 E   O E   I I
 E C   I H   N
 T     S     G
+
+0   6    12
+1  57  1113
+2 4 810  14
+3   9    15
+
+PAYPALISHIRING
+
+P A H N
+APLSIIG
+Y I R
+
+找规律: 
+第一行和最后一行: 首项0和(n-1公差为2(n-1)的等差数列
+2~n-1行 2个公差为2(n-1)的等差数列,首项分别为i,2(n-1)-i
 """
 
 
 class Solution(object):
     def convert(self, s, numRows):
         """
-        思路
-
-        按照与逐行读取 Z 字形图案相同的顺序访问字符串。
-        算法
-
-        首先访问 行 0 中的所有字符，接着访问 行 1，然后 行 2，依此类推...
-
-        对于所有整数 kk，
-
-        行 00 中的字符位于索引 k \; (2 \cdot \text{numRows} - 2)k(2⋅numRows−2) 处;
-        行 \text{numRows}-1numRows−1 中的字符位于索引 k \; (2 \cdot \text{numRows} - 2) + \text{numRows} - 1k(2⋅numRows−2)+numRows−1 处;
-        内部的 行 ii 中的字符位于索引 k \; (2 \cdot \text{numRows}-2)+ik(2⋅numRows−2)+i 以及 (k+1)(2 \cdot \text{numRows}-2)- i(k+1)(2⋅numRows−2)−i 处;
-        :type s: str
-        :type numRows: int
-        :rtype: str
+        :param s:
+        :param numRows:
+        :return:
         """
-        m, n = len(s), 2 * numRows - 2
-        res = ''
-        if (numRows >= m or numRows <= 1):
+        n = len(s)
+        if numRows >= n or numRows < 1:
             return s
+        m = 2 * numRows - 2
+        res = ''
         for i in range(numRows):
-            for j in range(0, m - i, n):
-                res += s[j + i]
-                if (i != 0 and i != numRows - 1 and j + n - i < m):
-                    res += s[j + n - i]
-                j += n
+            if i == 0 or i == numRows - 1:
+                j = i
+                while j < n:
+                    res += s[j]
+                    j += m
+            else:
+                j = i
+                k = 2 * numRows - 2 - i
+                while j < n or k < n:
+                    if j < n:
+                        res += s[j]
+                    if k < n:
+                        res += s[k]
+                    j += m
+                    k += m
         return res
 
+    # def convert(self, s, numRows):
+    #     """
+    #
+    #     :type s: str
+    #     :type numRows: int
+    #     :rtype: str
+    #     """
+    #     m, n = len(s), 2 * numRows - 2
+    #     res = ''
+    #     if (numRows >= m or numRows <= 1):
+    #         return s
+    #     for i in range(numRows):
+    #         for j in range(0, m - i, n):
+    #             res += s[j + i]
+    #             if (i != 0 and i != numRows - 1 and j + n - i < m):
+    #                 res += s[j + n - i]
+    #             j += n
+    #     return res
 
-s = "LEETCODEISHIRING"
-numRows = 4
+
+s = "A"
+numRows = 1
 sol = Solution()
 print(sol.convert(s, numRows))

@@ -27,7 +27,7 @@ from utils.ListNode import ListNode, LN2List, List2LN
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         """
-        方法三 看了大佬的代码后 修改出的代码
+        and 改成or 就不需要扣边界了
         :param l1:
         :param l2:
         :return:

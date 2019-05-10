@@ -23,30 +23,31 @@ n = 2:
 class Solution:
     def generateParenthesis(self, n):
         """
-        回溯法
-        只有在我们知道序列仍然保持有效时才添加 '(' or ')'，而不是像方法一那样每次添加。
-        我们可以通过跟踪到目前为止放置的左括号和右括号的数目来做到这一点，
-        如果我们还剩一个位置，我们可以开始放一个左括号。 如果它不超过左括号的数量，我们可以放一个右括号。
-        :param n:
-        :return:
+        dfs添加所有有效括号
+        剪枝:
+        1. 每次可以放置左括号的条件是当前左括号的数目不超过n
+        2. 每次可以放置右括号的条件是当前右括号的数目不超过左括号的数目
+        :type n: int
+        :rtype: List[str]
         """
-        ans = []
 
-        def backtrack(S='', left=0, right=0):
-            if len(S) == 2 * n:
-                ans.append(S)
+        def dfs(left, right, n, path, res):
+            if left == n and right == n:
+                res.append(path)
                 return
             if left < n:
-                backtrack(S + '(', left + 1, right)
-            if left > right:
-                backtrack(S + ')', left, right + 1)
+                dfs(left + 1, right, n, path + '(', res)
+            if right < left:
+                dfs(left, right + 1, n, path + ')', res)
 
-        backtrack()
-        return ans
+        res = []
+        dfs(0, 0, n, '', res)
+        return res
 
     def generateParenthesis3(self, n):
         """
         闭合数
+        看不懂。
         :param n:
         :return:
         """
@@ -54,7 +55,7 @@ class Solution:
         ans = []
         for c in range(n):
             for left in self.generateParenthesis(c):
-                for right in self.generateParenthesis(n-1-c):
+                for right in self.generateParenthesis(n - 1 - c):
                     ans.append('({}){}'.format(left, right))
         return ans
 

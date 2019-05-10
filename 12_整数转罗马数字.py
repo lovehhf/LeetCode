@@ -22,15 +22,22 @@ C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
 给定一个整数，将其转为罗马数字。输入确保在 1 到 3999 的范围内。
 """
 
-def intToRoman(num):
-    Roman_value = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
-    Roman_symbol = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I']
-    res = ''
-    for i,v in enumerate(Roman_value):
-        mnt = num // v
-        res += Roman_symbol[i]*mnt
-        # calc.append(mnt)
-        num = num % v
-    return res
 
-print(intToRoman(1994))
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        """
+        从从大到小遍历一遍,num更新为当前遍历到的数的模
+        :param num:
+        :return:
+        """
+        roman_nums = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
+        roman_symbol = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I']
+        res = ''
+        for i in range(len(roman_nums)):
+            m, num = num // roman_nums[i], num % roman_nums[i]
+            res += roman_symbol[i] * m
+        return res
+
+
+s = Solution()
+print(s.intToRoman(1994))
