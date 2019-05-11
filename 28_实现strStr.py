@@ -20,6 +20,12 @@ __author__ = 'huanghf'
 
 class Solution:
     def strStr(self, haystack: str, needle: str) -> int:
+        """
+        暴力法 遇到第一个字母相同就开始 比对
+        :param haystack:
+        :param needle:
+        :return:
+        """
         m, n = len(haystack), len(needle)
         if not n:
             return 0
@@ -27,7 +33,6 @@ class Solution:
             i = 0
             while i <= m - n:
                 if haystack[i] == needle[0]:
-                    k = 0
                     for k in range(n):
                         if haystack[i + k] != needle[k]:
                             i += 1
@@ -38,27 +43,27 @@ class Solution:
                     i += 1
         return -1
 
-    def strStr2(self, haystack, needle):
-        n_length = len(needle)
-        h_length = len(haystack)
-        if n_length > h_length:
-            return -1
-        if n_length == 0:
-            return 0
-
-        for i in range(len(haystack)):
-            if haystack[i] == needle[0]:
-                t = True
-                for j in range(1, n_length):
-                    if i + j >= h_length:
-                        return -1
-                    if haystack[i + j] != needle[j]:
-                        t = False
-                        break
-                if t == True:
-                    return i
-
-        return -1
+    # def strStr2(self, haystack, needle):
+    #     n_length = len(needle)
+    #     h_length = len(haystack)
+    #     if n_length > h_length:
+    #         return -1
+    #     if n_length == 0:
+    #         return 0
+    #
+    #     for i in range(len(haystack)):
+    #         if haystack[i] == needle[0]:
+    #             t = True
+    #             for j in range(1, n_length):
+    #                 if i + j >= h_length:
+    #                     return -1
+    #                 if haystack[i + j] != needle[j]:
+    #                     t = False
+    #                     break
+    #             if t == True:
+    #                 return i
+    #
+    #     return -1
 
 
 s = Solution()
