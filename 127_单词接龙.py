@@ -52,12 +52,13 @@ class Solution(object):
         for i in range(len(w1)):
             if w1[i] != w2[i]:
                 c += 1
+            if c > 1:
+                return False
         return c == 1
 
     def ladderLength(self, beginWord, endWord, wordList):
         """
         超时 待优化
-
         bfs 最短路
         将单词看做点，如果两个单词可以相互转化，则在相应的点之间连一条无向边。
         所以可以用BFS求最短路径
@@ -81,29 +82,86 @@ class Solution(object):
                     queue.append(word)
         return 0
 
-    def ladderLength2(self, beginWord, endWord, wordList):
+    def ladderLength3(self, beginWord, endWord, wordList):
         """
-        copy来的代码
-        https://leetcode.com/problems/word-ladder/discuss/40729/Compact-Python-solution
+        使用set对上面的代码稍作改进
+        速度有所提成,在30/40超时了
         :param beginWord:
         :param endWord:
         :param wordList:
         :return:
         """
+        from collections import deque
         wordList = set(wordList)
-        wordList.add(endWord)
-        queue = deque([[beginWord, 1]])
+        d = {beginWord: 1}  # 键:从beginWord转到的词 值:beginWord到键的最短路径
+        queue = deque([beginWord])
         while queue:
-            word, length = queue.popleft()
-            if word == endWord:
-                return length
-            for i in range(len(word)):
-                for c in 'abcdefghijklmnopqrstuvwxyz':
-                    next_word = word[:i] + c + word[i + 1:]
-                    if next_word in wordList:
-                        wordList.remove(next_word)
-                        queue.append([next_word, length + 1])
+            cur = queue.popleft()
+            if cur == endWord:
+                return d[cur]
+            words = {word for word in wordList if self.check(cur, word) and not d.get(word)}
+            # print(words)
+            for word in words:
+                d[word] = d[cur] + 1
+                queue.append(word)
+            wordList -= words
+            # 下面的代码会报错 RuntimeError: Set changed size during iteration
+            # 原因是Set在迭代的时候不能改变长度:
+            # for word in wordList:
+            #     if self.check(cur, word) and not d.get(word):
+            #         d[word] = d[cur] + 1
+            #         queue.append(word)
+            #         wordList.remove(word)
         return 0
+
+    def ladderLength2(self, beginWord, endWord, wordList):
+        """
+        默写了一下下面被注释的代码
+        在wordList长度很大的的时候有很大优化
+        时间复杂度应该是(O(nlog(n)L) AC
+        :param beginWord:
+        :param endWord:
+        :param wordList:
+        :return:
+        """
+        from collections import deque
+        wordList = set(wordList)  # set中找一个单词的时间复杂度是O(log(n)),比list快
+        queue = deque([(beginWord, 1)])
+        while queue:
+            cur, depth = queue.popleft()
+            if cur == endWord:
+                return depth
+            for i in range(len(cur)):
+                for j in [chr(ord('a') + x) for x in range(0, 26)]:
+                    word = cur[:i] + j + cur[i + 1:]  # 对cur的每个字母分别替换成26个字母看是否在wordList里面
+                    if word in wordList:
+                        wordList.remove(word)
+                        queue.append((word, depth + 1))
+        return 0
+
+    # def ladderLength2(self, beginWord, endWord, wordList):
+    #     """
+    #     copy来的代码
+    #     https://leetcode.com/problems/word-ladder/discuss/40729/Compact-Python-solution
+    #     :param beginWord:
+    #     :param endWord:
+    #     :param wordList:
+    #     :return:
+    #     """
+    #     wordList = set(wordList)
+    #     wordList.add(endWord)
+    #     queue = deque([[beginWord, 1]])
+    #     while queue:
+    #         word, length = queue.popleft()
+    #         if word == endWord:
+    #             return length
+    #         for i in range(len(word)):
+    #             for c in 'abcdefghijklmnopqrstuvwxyz':
+    #                 next_word = word[:i] + c + word[i + 1:]
+    #                 if next_word in wordList:
+    #                     wordList.remove(next_word)
+    #                     queue.append([next_word, length + 1])
+    #     return 0
 
 
 s = Solution()
@@ -332,3 +390,5 @@ wordList = ["slit", "bunk", "wars", "ping", "viva", "wynn", "wows", "irks", "gan
             "purr", "vise", "grew", "govs", "meat", "chef", "rest", "lame"]
 
 print(s.ladderLength2(beginWord, endWord, wordList))
+print(s.ladderLength3(beginWord, endWord, wordList))
+print(s.ladderLength(beginWord, endWord, wordList))
