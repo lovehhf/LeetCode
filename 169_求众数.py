@@ -15,6 +15,8 @@ __author__ = 'huanghf'
 
 输入: [2,2,1,1,1,2,2]
 输出: 2
+
+
 """
 
 
@@ -24,6 +26,11 @@ class Solution:
         return nums[len(nums)//2]
 
     def majorityElement2(self, nums):
+        """
+        摩尔投票算法
+        :param nums:
+        :return:
+        """
         cnt, ret = 0, 0
         for num in nums:
             if cnt == 0:
