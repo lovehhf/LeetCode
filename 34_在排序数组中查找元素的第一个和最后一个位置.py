@@ -19,6 +19,7 @@ __author__ = 'huanghf'
 输出: [-1,-1]
 """
 
+import bisect
 
 class Solution(object):
     def searchRange(self, nums, target):
@@ -114,8 +115,16 @@ class Solution(object):
                 return [L, R]
         return [-1, -1]
 
+    def searchRange3(self, nums, target):
+        if nums and (target<nums[0] or target>nums[-1]):
+            return [-1,-1]
+        l = bisect.bisect_left(nums,target)
+        r = bisect.bisect_right(nums,target) - 1
+        return [l,r] if l<=r else [-1,-1]
+
 
 s = Solution()
 nums = [1]
 target = 1
 print(s.searchRange(nums, target))
+print(s.searchRange3(nums, target))

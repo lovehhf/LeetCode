@@ -55,3 +55,32 @@ class Solution:
         q.next = head
         p.next = None
         return newhead
+
+    def rotateRight2(self, head, k):
+        """
+        20190718
+        :type head: ListNode
+        :type k: int
+        :rtype: ListNode
+        """
+        # 求链表长度
+        n = 1
+        end = head
+        while end and end.next:
+            end = end.next
+            n += 1
+        k = k % n
+        # 特殊情况
+        if not head or not k:
+            return head
+        # 找出链表的倒数k+1个节点和倒数第k个节点
+        dummy = ListNode(0)
+        dummy.next = head
+        start = head
+        for _ in range(n - k):
+            dummy = dummy.next
+            start = start.next
+        # 尾结点指向头结点,倒数第k+1个节点指向倒数第k个节点，返回倒数第k个节点
+        end.next = head
+        dummy.next = None
+        return start
