@@ -38,10 +38,12 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class Solution:
     """
     中序遍历
     """
+
     def isValidBST(self, root: TreeNode) -> bool:
         inorder = self.inorder(root)
         return inorder == list(sorted(set(inorder)))
@@ -50,3 +52,21 @@ class Solution:
         if not root:
             return []
         return self.inorder(root.left) + [root.val] + self.inorder(root.right)
+
+    def isValidBST2(self, root):
+        """
+        20190728
+        :type root: TreeNode
+        :rtype: bool
+        """
+
+        def inorder(node):
+            """
+            中序遍历
+            """
+            if not node:
+                return []
+            return inorder(node.left) + [node.val] + inorder(node.right)
+
+        in_order = inorder(root)
+        return list(sorted(set(in_order))) == in_order
