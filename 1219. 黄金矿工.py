@@ -47,18 +47,45 @@ __author__ = 'huanghf'
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 """
 
+import copy
+
 
 class Solution(object):
-    def dfs(self):
-        pass
+    def __init__(self):
+        self.res = 0
+
+    def dfs(self, g, m, n, x, y, cur):
+        """
+        :param i:
+        :param j:
+        :param cur:
+        :return:
+        """
+        cur += g[x][y]
+        d = {(1, 0), (0, 1), (-1, 0), (0, -1)}
+        self.res = max(self.res, cur)
+        t = g[x][y]
+        g[x][y] = 0
+        for dx, dy in d:
+            i = x + dx
+            j = y + dy
+            if 0 <= i < m and 0 <= j < n and g[i][j]:
+                self.dfs(g, m, n, i, j, cur)
+        g[x][y] = t
 
     def getMaximumGold(self, grid):
         """
         :type grid: List[List[int]]
         :rtype: int
         """
-        pass
-
+        m, n = len(grid), len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                g = copy.deepcopy(grid)
+                if 0 <= i < m and 0 <= j < n and grid[i][j]:
+                    self.dfs(g, m, n, i, j, 0)
+                    # print(i,j,self.res)
+        return self.res
 
 s = Solution()
 grid = [[1, 0, 7],
