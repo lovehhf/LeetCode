@@ -21,6 +21,7 @@
 from typing import List
 import collections
 
+
 class Solution:
     def findSpecialInteger(self, arr: List[int]) -> int:
         c = collections.Counter(arr)
