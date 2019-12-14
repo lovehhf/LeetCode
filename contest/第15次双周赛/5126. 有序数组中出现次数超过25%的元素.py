@@ -19,13 +19,13 @@
 0 <= arr[i] <= 10^5
 """
 from typing import List
-
+import collections
 
 class Solution:
     def findSpecialInteger(self, arr: List[int]) -> int:
-        d = {}
-        n = len(arr)
-        for i in arr:
-            d[i] = d.get(i, 0) + 1
-            if (d[i] / n > 0.25):
-                return i
+        c = collections.Counter(arr)
+        return c.most_common(1)[0][0]
+
+
+s = Solution()
+print(s.findSpecialInteger([1, 2, 2, 6, 6, 6, 6, 7, 10]))
