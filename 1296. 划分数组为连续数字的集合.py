@@ -38,6 +38,8 @@
 
 """
 
+from collections import defaultdict
+
 class Solution(object):
     def isPossibleDivide(self, nums, k):
         """
@@ -48,15 +50,16 @@ class Solution(object):
         if (len(nums) % k) != 0:
             return False
 
-        d = {}
+        d = defaultdict(int)
         for i in nums:
-            d[i] = d.get(i, 0) + 1
+            d[i] += 1
 
         for i in sorted(set(nums))[:-k + 1]:
             t = d[i]
             if d[i] > 0:
+                # 把i ~ i+k的次数都减i出现的次数
                 for j in range(k):
-                    d[i + j] = d.get(i + j, 0) - t
+                    d[i + j] = d[i + j] - t
                     if d[i + j] < 0:
                         return False
 
