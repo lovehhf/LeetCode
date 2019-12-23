@@ -24,27 +24,29 @@ __author__ = 'huanghf'
      
 """
 
+from collections import defaultdict
+
 
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
         """
-        遍历一遍s
-        使用一个列表存储到遍历到当前字符的无重复字符串
-        如果当前字符没有在列表中出现,则添加当前字符 
-        否则在列表里面删除重复字符索引前面的所有字符 再在最后加上当前字符
+        字典 + 双指针实现滑动窗口
         :type s: str
         :rtype: int
         """
+        d = defaultdict(int)
+        l, r = 0, 0
         n = len(s)
-        stack = []
         res = 0
-        for i in range(n):
-            if s[i] not in stack:
-                stack.append(s[i])
-                res = max(len(stack), res)
-            else:
-                idx = stack.index(s[i])
-                stack = stack[idx + 1:] + [s[i]]
+
+        while (r < n):
+            d[s[r]] += 1
+            while (d[s[r]] > 1):
+                d[s[l]] -= 1
+                l += 1
+            res = max(res, r - l + 1)
+            r += 1
+
         return res
 
     def lengthOfLongestSubstring2(self, s):
@@ -67,6 +69,7 @@ class Solution(object):
                 st.remove(s[L])
                 L += 1
         return res
+
 
 s = Solution()
 print(s.lengthOfLongestSubstring2("dvdf"))
