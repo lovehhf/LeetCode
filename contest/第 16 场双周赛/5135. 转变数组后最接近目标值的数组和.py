@@ -40,6 +40,13 @@ from typing import List
 class Solution:
 
     def findBestValue(self, arr: List[int], target: int) -> int:
+        """
+        value 对数组和的影响: value 越大, 和越大
+
+        :param arr:
+        :param target:
+        :return:
+        """
         l = 0
         r = 10 ** 5
 
@@ -53,18 +60,7 @@ class Solution:
             else:
                 l = mid + 1
 
-        t = l
+        p = abs(sum(min(i, l) for i in arr) - target)
+        q = abs(sum(min(i, l - 1) for i in arr) - target)
 
-        # 二分找 和 < target 的最大 value
-        l = 0
-        r = 10 ** 5
-        while l < r:
-            mid = (l + r + 1) >> 1
-            s = sum(min(i, mid) for i in arr)
-
-            if s < target:
-                l = mid
-            else:
-                r = mid - 1
-
-        return t if abs(sum(min(i, t) for i in arr) - target) < abs(sum(min(i, l) for i in arr) - target) else l
+        return l if p < q else l - 1
