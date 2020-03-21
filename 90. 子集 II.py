@@ -20,8 +20,16 @@ __author__ = 'huanghf'
   []
 ]
 子集一: 78
+
+dfs: 
+
+1. 预排序
+2. dfs 搜索, 递归到的所有的路径都是子集
+3. 遇到 i > 0 && nums[i] == nums[i - 1] 的情况说明这个数不是第一遇到
+   加上的话它的子集之前肯定在搜索 i - 1 的时候添加过, 剪枝
 """
 
+from typing import List
 
 class Solution(object):
     def subsetsWithDup(self, nums):
@@ -47,24 +55,21 @@ class Solution(object):
             res += cur
         return res
 
-    def subsetsWithDup2(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        if not nums:
-            return []
-        nums.sort()
+class DFS_Solution:
+    def dfs(self, nums, res, path):
+        res.append(path)
         n = len(nums)
-        dp = [[[]] for _ in range(n)]
-        dp[0] = [[], [nums[0]]]
-        for i in range(1, n):
-            if nums[i] != nums[i - 1]:
-                dp[i] = dp[i - 1] + [x + [nums[i]] for x in dp[i - 1]]
-            else:
-                # 这么去重有点太暴力了
-                dp[i] = dp[i - 1] + [x + [nums[i]] for x in dp[i - 1] if not (x + [nums[i]]) in dp[i - 1]]
-        return dp[-1]
+        for i in range(n):
+            # 去重
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            self.dfs(nums[i + 1:], res, path + [nums[i]])
+
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums = sorted(nums)
+        res = []
+        self.dfs(nums, res, [])
+        return res
 
 
 nums = [1, 2, 2, 2]
