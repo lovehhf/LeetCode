@@ -7,11 +7,19 @@ __author__ = 'huanghf'
 
 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
 
- 
-
 示例:
-
 给定 1->2->3->4, 你应该返回 2->1->4->3.
+
+迭代：
+
+-1 -> 1 -> 2 -> 3 -> 4 -> None
+p     q    r
+第一次迭代:
+-1 -> 2 -> 1 -> 3 -> 4 -> None
+      r   p,q  
+第二次迭代：
+-1 -> 2 -> 1 -> 4 -> 3 -> None
+                r   p,q
 """
 
 class ListNode:
@@ -20,6 +28,24 @@ class ListNode:
         self.next = None
 
 class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        """
+        迭代解法, 使用三个指针 p, q, r 不停地改变他们的  next 指针
+        """
+        dummy = ListNode(-1)
+        dummy.next = head
+        p = dummy
+        while(p.next and p.next.next):
+            q = p.next
+            r = q.next
+            p.next = r
+            q.next = r.next
+            r.next = q
+            p = q
+        return dummy.next
+        
+
+class Recursion_Solution:
 
     def swapPairs(self, head):
         """
@@ -35,24 +61,3 @@ class Solution:
         head.next = self.swapPairs(nextNode.next)
         nextNode.next = head
         return nextNode
-
-    def swapPairs2(self, head):
-        """
-        和链表反转类似，关键在于　有三个指针，分别指向前后和当前节点。不同点是两两交换后，移动节点步长为２
-        """
-        dummy = ListNode(0)
-        p = dummy
-        h = head
-        while h:
-            if h and h.next:
-                q = h.next
-                p.next = q
-                # 交换位置
-                h.next = h.next.next
-                q.next = h
-                h = h.next
-                p = p.next.next
-            else:
-                p.next = h
-                h = h.next
-        return dummy.next
