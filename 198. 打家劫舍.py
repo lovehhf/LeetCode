@@ -1,21 +1,17 @@
 # -*- coding:utf-8 -*-
 
-__author__ = 'huanghf'
-
 """
 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，
 影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
-
 给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。
 
 示例 1:
-
 输入: [1,2,3,1]
 输出: 4
 解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
      偷窃到的最高金额 = 1 + 3 = 4 。
-示例 2:
 
+示例 2:
 输入: [2,7,9,3,1]
 输出: 12
 解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。
@@ -32,52 +28,26 @@ __author__ = 'huanghf'
 由此看出我们需要初始化dp[0]和dp[1]，其中dp[0]即为num[0]，dp[1]此时应该为max(num[0], num[1])
 """
 
+from typing import List
 
-def rob(nums):
-    """
-    非递归
-    :param nums:
-    :return:
-    """
-    n = len(nums)
-    if n == 0:
-        return 0
-    if n == 1:
-        return nums[0]
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        """
+        状态表示: f[i]: 只考虑前 i 间房子, 最多能偷到多少钱
+        状态转移: 1. 偷第 i - 1 间房子: f[i - 1], 不偷第 i - 1 间房子: f[i - 2] + nums[i]
+        转移方程: f[i] = max(f[i - 1], f[i - 2] + nums[i - 2])
+        :param nums:
+        :return:
+        """
+        n = len(nums)
+        f = [0] * (n + 2)
 
-    dp = [0] * n
-    dp[0] = nums[0]
-    dp[1] = max(nums[0], nums[1])
-    for i in range(2, n):
-        dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
-    return dp[-1]
+        for i in range(2, n + 2):  # 从 2 开始, 避免长度为0和1的边界问题
+            f[i] = max(f[i - 1], f[i - 2] + nums[i - 2])
 
+        return f[n + 1]
 
-def rob3(nums):
-    """
-    递归
-    超时
-    :param nums:
-    :return:
-    """
-    n = len(nums)
-    if n == 0:
-        return 0
-    if n == 1:
-        return nums[0]
-    # if n == 2:
-    #     return max(nums[0], nums[1])
-    return max(rob3(nums[:n - 2]) + nums[-1], rob3(nums[:n - 1]))
-
-
-def rob2(nums):
-    last = 0
-    now = 0
-    for i in nums:
-        # 交替赋值比对
-        last, now = now, max(last + i, now)
-        # print(i,last, now)
-    return now
-
-
-print(rob([183,219,57,193,94,233,202,154,65,240,97,234,100,249,186,66,90,238,168,128,177,235,50,81,185,165,217,207,88,80,112,78,135,62,228,247,211]))
+nums = [183, 219, 57, 193, 94, 233, 202, 154, 65, 240, 97, 234, 100, 249, 186, 66, 90, 238, 168, 128, 177, 235, 50, 81,
+        185, 165, 217, 207, 88, 80, 112, 78, 135, 62, 228, 247, 211]
+s = Solution()
+print(s.rob(nums))
