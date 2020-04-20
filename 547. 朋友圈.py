@@ -33,7 +33,45 @@ N 在[1,200]的范围内。
 from typing import List
 
 
-class Solution:
+class UnionFind:
+    def __init__(self, n):
+        # 初始化, 每个节点都是自己的祖先节点
+        self.father = [i for i in range(n)]
+
+    def find(self, x):
+        """
+        查找 x 的祖先节点
+        """
+        if (self.father[x] == x):
+            return x
+        self.father[x] = self.find(self.father[x])  # 路径压缩, 查找的过程中的所有节点的祖先节点都指向
+        return self.father[x]
+
+    def union(self, a, b):
+        """
+        合并 a 和 b 所在的集合, a 的祖先节点指向 b 的祖先节点
+        """
+        fa = self.find(a)
+        fb = self.find(b)
+        self.father[fa] = fb
+
+
+class UnionFind_Solution:
+    def findCircleNum(self, M: List[List[int]]) -> int:
+        n = len(M)
+        uf = UnionFind(n)
+
+        for i in range(n):
+            for j in range(n):
+                if M[i][j]:
+                    uf.union(i, j)
+
+        # 并查集有多少个不同的集合, 等价于有多少个祖先节点指向自己的节点
+        res = sum([x == uf.father[x] for x in range(n)])
+        return res
+
+class DFS_Solution:
+
     def dfs(self, i, M, visited):
         if visited[i]:
             return
@@ -49,11 +87,12 @@ class Solution:
         for i in range(n):
             if visited[i] & 1:
                 continue
+            # 无向图, 通过任何一个节点都可以 dfs 搜索到所有的连通节点
             self.dfs(i, M, visited)
             res += 1
         return res
 
 
-s = Solution()
+s = UnionFind_Solution()
 M = [[1, 1, 0], [1, 1, 0], [0, 0, 1]]
 print(s.findCircleNum(M))
