@@ -1,7 +1,5 @@
 # -*- coding:utf-8 -*-
 
-__author__ = 'huanghf'
-
 """
 编写一个算法来判断一个数是不是“快乐数”。
 
@@ -18,47 +16,27 @@ __author__ = 'huanghf'
 1^2 + 0^2 + 02 = 1
 """
 
-class Solution(object):
+
+class SetSolution(object):
     def isHappy(self, n):
         """
+        使用集合判重
         :type n: int
         :rtype: bool
         """
+        s = set()
+        while (not n in s):
+            s.add(n)
+            m = 0
+            while (n):
+                t = n % 10
+                m += t * t
+                n //= 10
+            if m == 1:
+                return True
+            n = m
+        return False
 
-        # n 转为整数列表 19 = [1,9]
 
-        now = n
-        next_num = self.get_next_num(n)
-        res_set = set()
-        while not next_num in res_set:
-            res_set.add(next_num)
-            now,next_num = next_num,self.get_next_num(next_num)
-        if now!=1:
-            return False
-        return True
-
-    def get_next_num(self,n):
-        l = []
-        while n:
-            a = n%10
-            n//=10
-            l.insert(0,a)
-        next_num = sum(map(lambda x:x*x,l))
-        return next_num
-
-    def isHappy2(self, n):
-        """
-        :type n: int
-        :rtype: bool
-        """
-        mem = set()                #利用 set（）集合，保存平方求和后的数值
-        while n != 1:              #利用 while 实现循环
-            n = sum([int(i)**2 for i in str(n)])    #通过str（n）调取输入整数各个位数的值
-            if n not in mem:       #若平方求和后的数值是首次出现，则添加进集合中
-                mem.add(n)
-            else:                  #若求和后数值，在集合中存在，则直接返回false,即出现死循环
-                return False
-        return True                #最终当n==1时，跳出while循环，返回true
-
-s = Solution()
+s = SetSolution()
 print(s.isHappy(2))
