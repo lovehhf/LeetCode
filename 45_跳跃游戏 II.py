@@ -1,28 +1,47 @@
 # -*- coding:utf-8 -*-
 
-__author__ = 'huanghf'
-
 """
 给定一个非负整数数组，你最初位于数组的第一个位置。
-
 数组中的每个元素代表你在该位置可以跳跃的最大长度。
-
 你的目标是使用最少的跳跃次数到达数组的最后一个位置。
 
 示例:
-
 输入: [2,3,1,1,4]
 输出: 2
 解释: 跳到最后一个位置的最小跳跃数是 2。
      从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
+
 说明:
-
 假设你总是可以到达数组的最后一个位置。
-
 
 定义两个指针last和i，数组f[i]表示到达i所需要的最少步数。
 定义last为第一次到达i时上一步的位置，last从0开始。
 """
+
+import collections
+from typing import List
+
+class BFS_Solution(object):
+    def jump(self, nums: List[int]) -> int:
+
+        if len(nums) == 1:
+            return 0
+
+        n = len(nums)
+        queue = collections.deque([(0, 0)])
+        j = 1     # 当前最远能跳到的距离, j 前面的已经跳过了， 不用再加到队列里面
+        while queue:
+            i, t = queue.popleft()
+
+            if i + nums[i] >= n - 1:
+                return t + 1
+
+            for k in range(j, i + nums[i] + 1):
+                queue.append((k, t + 1))
+
+            j = max(j, i + nums[i] + 1)
+
+        return -1
 
 
 class Solution(object):
@@ -30,7 +49,6 @@ class Solution(object):
         """
         max_dump 在第i个元素最远能跳到的距离
         dp[i]:跳到第i个元素最少需要多少步
-        没用到动态规划
         :type nums: List[int]
         :rtype: int
         """
@@ -74,6 +92,6 @@ class Solution(object):
         return f[n - 1]
 
 
-nums = [2, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 4]
-s = Solution()
+nums = [1] * 100000
+s = BFS_Solution()
 print(s.jump(nums))
