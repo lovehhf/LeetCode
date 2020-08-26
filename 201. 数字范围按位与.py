@@ -30,41 +30,18 @@ class Solution:
         :param n: 
         :return: 
         """
-        a = bin(m)[2:]  # 转换为二进制字符串
-        b = bin(n)[2:]
-        if len(a) != len(b): return 0  # 字符串长度不相等，答案为0
-        i = 0
-        length = len(a)
-        while i < length and a[i] == b[i]:  # 在m和n二进制长度相等的情况下，计算m和n最高位相等 有多少位
-            i += 1
-        n >>= (length - i)  # m,n 前i位都相同, n右移length - i位,把i位后面的都变为0,保留最高位相等的二进制数
-        n <<= (length - i)  # 再左移length - i位 110100111,110111111 -> 110100000
-        return n
-    
-    def rangeBitwiseAnd2(self, m: int, n: int) -> int:
-        """
-        :param m:
-        :param n:
-        :return:
-        """
-        ans = 0
+
+        res = 0
+
         for i in range(30, -1, -1):
-            if (m >> i & 1) ^ (n >> i & 1):
-                break
-            ans |= (m >> i & 1) << i
-        return ans
+            a = 1 << (i + 1)  # 上边界
+            b = 1 << i  # 下边界
+            if b <= m < a and b <= n < a:
+                res += b
+                m -= b
+                n -= b
 
-
-
-    def rangeBitwiseAnd3(self, m: int, n: int) -> int:
-        """
-        爆内存了
-        :param m:
-        :param n:
-        :return:
-        """
-        from functools import reduce
-        return reduce(lambda x, y: x & y, list(range(m, n + 1)))
+        return res
 
 
 m, n = 20000, 2147483647
