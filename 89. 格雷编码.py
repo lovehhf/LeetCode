@@ -41,22 +41,18 @@ __author__ = 'huanghf'
 f(n) = ['0'+x for x in f(n-1)] + ['1'+x for x in reversed(n-1)]
 """
 
+from typing import List
 
-class Solution(object):
-    def grayCode(self, n):
-        """
-        :type n: int
-        :rtype: List[int]
-        """
-        if n==0:
+class Solution:
+    def grayCode(self, n: int) -> List[int]:
+        if n == 0:
             return [0]
-        res = [['0','1']]
-        for i in range(1,n):
-            res_i = ['0'+x for x in res[i-1]] + ['1'+x for x in reversed(res[i-1])]
-            res.append(res_i)
 
-        # print(res)
-        return list(map(lambda x:int(x,2),res[-1]))
+        res = ['0', '1']
+        for i in range(1, n):
+            res = ['0' + x for x in res] + ['1' + x for x in reversed(res)]
+
+        return [int(x, 2) for x in res]
 
 if __name__ == '__main__':
     s = Solution()
